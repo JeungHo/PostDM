@@ -1,0 +1,32 @@
+import requests
+import json
+import xml.etree.ElementTree as ET
+
+sKey=''
+url = 'http://apis.data.go.kr/1613000/AptListService2/getSigunguAptList'
+params ={'serviceKey' : sKey
+    # , 'sidoCode' : '41'
+    , 'sigunguCode' : '41150'
+    , 'pageNo' : '1', 'numOfRows' : '9999' }
+
+response = requests.get(url, params=params)
+root_xml = ET.fromstring(response.text)
+# root_xml = ET.fromstring(response.content.decode('utf'))
+# tree = ET.fromstring(response.content.decode('utf'))
+
+# print(root_xml.attrib)
+for child in root_xml.findall('./body/items/item'):
+    # print(child.tag, child.attrib)
+    print(child.findtext('bjdCode'),child.findtext('as3'),child.findtext('kaptCode'),child.findtext('kaptName'))
+    # 법정동, 단지코드,단지명
+
+# print(tree.findall('body'))
+# json_data = json.loads(response.text)
+# root_json=(json.dumps(json_data, indent = 4))
+# r_dict =json.loads(response) #
+# root_json=(json.dumps(r_dict, indent = 4))
+# print(root_json)
+# print(json_data)
+
+# print(response.content.decode('utf-8'))
+print('https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15057332')
